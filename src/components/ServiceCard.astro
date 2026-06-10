@@ -1,0 +1,60 @@
+---
+import type { Service } from '../data/services';
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+
+const linkIcon: Record<string, string> = {
+  web: '↗',
+  github: '↗',
+  download: '↓',
+};
+---
+
+<div class="border border-neutral-800 rounded-lg overflow-hidden">
+  {service.screenshot ? (
+    <img
+      src={service.screenshot}
+      alt={service.title}
+      class="w-full aspect-video object-cover bg-neutral-900"
+    />
+  ) : (
+    <div class="w-full aspect-video bg-neutral-900 flex items-center justify-center">
+      <span class="text-xs text-neutral-600">no screenshot</span>
+    </div>
+  )}
+
+  <div class="p-5">
+    <h2 class="text-sm font-semibold text-neutral-200 mb-2">{service.title}</h2>
+
+    {service.description && (
+      <p class="text-xs text-neutral-300 leading-relaxed mb-4">{service.description}</p>
+    )}
+
+    {service.techStack.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-5">
+        {service.techStack.map(tech => (
+          <span class="text-xs px-2 py-1 border border-neutral-700 rounded text-neutral-400">
+            {tech}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <div class="flex flex-wrap gap-2">
+      {service.links.map(link => (
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-xs px-3 py-1.5 border border-neutral-600 rounded text-neutral-200 hover:border-neutral-400 hover:text-white transition-all duration-150"
+        >
+          {link.label} {linkIcon[link.type]}
+        </a>
+      ))}
+    </div>
+  </div>
+</div>

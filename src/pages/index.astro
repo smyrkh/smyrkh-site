@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavCard from '../components/NavCard.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="smyrkh">
+  <main class="min-h-screen flex flex-col justify-between max-w-2xl mx-auto px-6 pt-32 sm:pt-40 pb-16 sm:pb-24">
+    <div>
+      <section class="mb-12">
+        <h1 class="text-5xl sm:text-6xl font-bold text-neutral-100 mb-6 tracking-tight">
+          smyrkh
+        </h1>
+        <p class="text-neutral-300 leading-relaxed max-w-sm">
+          Software engineer. Building things on the web.
+        </p>
+      </section>
+
+      <nav aria-label="Site navigation">
+        <ul class="grid gap-3 sm:grid-cols-3">
+          <li><NavCard href="/profile" title="Profile" description="About me, skills, and social links." /></li>
+          <li><NavCard href="/blog" title="Blog" description="Articles and thoughts." /></li>
+          <li><NavCard href="/services" title="Services" description="Apps and projects I've built." /></li>
+        </ul>
+      </nav>
+    </div>
+
+    <Footer />
+  </main>
+</Layout>

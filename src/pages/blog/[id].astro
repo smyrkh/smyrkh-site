@@ -1,0 +1,57 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map(entry => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const date = entry.data.date.toISOString().slice(0, 10);
+---
+
+<Layout title={`${entry.data.title} — smyrkh`} description={entry.data.description}>
+  <main class="min-h-screen max-w-2xl mx-auto px-6 py-16 sm:py-24">
+    <PageHeader back={{ href: '/blog', label: 'blog' }} />
+
+    <article>
+      <header class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <time class="text-xs text-neutral-500 tabular-nums">{date}</time>
+          <span class="text-xs text-neutral-400 border border-neutral-700 rounded px-2 py-0.5">
+            {entry.data.category}
+          </span>
+        </div>
+        <h1 class="text-2xl font-bold text-neutral-100 mb-3">{entry.data.title}</h1>
+        {entry.data.description && (
+          <p class="text-sm text-neutral-300 mb-4">{entry.data.description}</p>
+        )}
+        {entry.data.tags.length > 0 && (
+          <div class="flex gap-3 flex-wrap">
+            {entry.data.tags.map(tag => (
+              <span class="text-xs text-neutral-500">#{tag}</span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <div class="prose prose-invert prose-sm prose-neutral max-w-none
+        prose-headings:font-mono prose-headings:font-semibold
+        prose-code:font-mono prose-code:text-neutral-300
+        prose-pre:bg-neutral-900 prose-pre:border prose-pre:border-neutral-800
+        prose-a:text-neutral-300 prose-a:no-underline hover:prose-a:text-white
+        prose-hr:border-neutral-800">
+        <Content />
+      </div>
+    </article>
+
+    <Footer />
+  </main>
+</Layout>
