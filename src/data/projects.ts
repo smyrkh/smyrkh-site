@@ -1,24 +1,24 @@
 export type LinkType = 'web' | 'github' | 'download';
 
-export interface ServiceLink {
+export interface ProjectLink {
   label: string;
   url: string;
   type: LinkType;
 }
 
-export interface Service {
+export interface Project {
   title: string;
   description?: string;
   screenshot?: string;
   techStack: string[];
-  links: ServiceLink[];
+  links: ProjectLink[];
 }
 
-const services: Service[] = [
+const projects: Project[] = [
   // {
   //   title: 'My App',
   //   description: 'A short description of what it does.',
-  //   screenshot: '/services/my-app.png',
+  //   screenshot: '/projects/my-app.png',
   //   techStack: ['Go', 'React', 'PostgreSQL'],
   //   links: [
   //     { label: 'Website', url: 'https://example.com', type: 'web' },
@@ -27,4 +27,4 @@ const services: Service[] = [
   // },
 ];
 
-export default services;
+export default projects;

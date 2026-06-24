@@ -1,11 +1,11 @@
 ---
-import type { Service } from '../data/services';
+import type { Project } from '../data/projects';
 
 interface Props {
-  service: Service;
+  project: Project;
 }
 
-const { service } = Astro.props;
+const { project } = Astro.props;
 
 const linkIcon: Record<string, string> = {
   web: '↗',
@@ -15,10 +15,10 @@ const linkIcon: Record<string, string> = {
 ---
 
 <div class="border border-neutral-800 rounded-lg overflow-hidden">
-  {service.screenshot ? (
+  {project.screenshot ? (
     <img
-      src={service.screenshot}
-      alt={service.title}
+      src={project.screenshot}
+      alt={project.title}
       class="w-full aspect-video object-cover bg-neutral-900"
     />
   ) : (
@@ -28,15 +28,15 @@ const linkIcon: Record<string, string> = {
   )}
 
   <div class="p-5">
-    <h2 class="text-sm font-semibold text-neutral-200 mb-2">{service.title}</h2>
+    <h2 class="text-sm font-semibold text-neutral-200 mb-2">{project.title}</h2>
 
-    {service.description && (
-      <p class="text-xs text-neutral-300 leading-relaxed mb-4">{service.description}</p>
+    {project.description && (
+      <p class="text-xs text-neutral-300 leading-relaxed mb-4">{project.description}</p>
     )}
 
-    {service.techStack.length > 0 && (
+    {project.techStack.length > 0 && (
       <div class="flex flex-wrap gap-2 mb-5">
-        {service.techStack.map(tech => (
+        {project.techStack.map(tech => (
           <span class="text-xs px-2 py-1 border border-neutral-700 rounded text-neutral-400">
             {tech}
           </span>
@@ -45,7 +45,7 @@ const linkIcon: Record<string, string> = {
     )}
 
     <div class="flex flex-wrap gap-2">
-      {service.links.map(link => (
+      {project.links.map(link => (
         <a
           href={link.url}
           target="_blank"
