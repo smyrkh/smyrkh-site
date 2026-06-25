@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
   title: string;
@@ -18,7 +18,17 @@ const { title, description = "smyrkh's personal website" } = Astro.props;
     <title>{title}</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
   </head>
-  <body class="bg-[#0a0a0a] text-neutral-100 min-h-screen font-mono antialiased">
+  <body
+    class="bg-[#0a0a0a] text-neutral-100 min-h-screen font-mono antialiased"
+  >
     <slot />
+    <!-- Cloudflare Web Analytics -->
+    <script
+      is:inline
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "e1e21f95ed904564a93df15c62c5ddb5"}'
+    ></script>
+    <!-- End Cloudflare Web Analytics -->
   </body>
 </html>
