@@ -9,7 +9,8 @@ const { href, label } = Astro.props;
   href={href}
   target="_blank"
   rel="noopener noreferrer"
-  class="text-xs text-neutral-300 border border-neutral-700 rounded px-3 py-2 hover:border-neutral-500 hover:text-white transition-all duration-200"
+  aria-label={label}
+  class="text-neutral-400 border border-neutral-700 rounded p-2 hover:border-neutral-500 hover:text-white transition-all duration-200 inline-flex items-center"
 >
-  {label}
+  <slot>{label}</slot>
 </a>
