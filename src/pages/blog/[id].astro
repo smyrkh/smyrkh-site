@@ -14,33 +14,50 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const date = entry.data.date.toISOString().slice(0, 10);
+const displayDate = (entry.data.updatedAt ?? entry.data.createdAt).toISOString().slice(0, 10);
+const categorySegments = entry.data.category.split('/');
 ---
 
 <Layout title={`${entry.data.title} — smyrkh`} description={entry.data.description}>
   <main class="min-h-screen max-w-2xl mx-auto px-6 py-16 sm:py-24">
-    <PageHeader back={{ href: '/blog', label: 'blog' }} />
+    <PageHeader back={{ href: '/blog/all', label: 'blog' }} />
 
     <article>
       <header class="mb-12">
-        <div class="flex items-center gap-3 mb-4">
-          <time class="text-xs text-neutral-500 tabular-nums">{date}</time>
-          <span class="text-xs text-neutral-400 border border-neutral-700 rounded px-2 py-0.5">
-            {entry.data.category}
-          </span>
+        <div class="flex items-center gap-1 text-xs text-neutral-600 mb-3">
+          {categorySegments.map((seg, i) => (
+            <>
+              <span>{seg}</span>
+              {i < categorySegments.length - 1 && <span>/</span>}
+            </>
+          ))}
         </div>
+
         <h1 class="text-2xl font-bold text-neutral-100 mb-3">{entry.data.title}</h1>
+
         {entry.data.description && (
           <p class="text-sm text-neutral-300 mb-4">{entry.data.description}</p>
         )}
-        {entry.data.tags.length > 0 && (
-          <div class="flex gap-3 flex-wrap">
-            {entry.data.tags.map(tag => (
-              <span class="text-xs text-neutral-500">#{tag}</span>
-            ))}
-          </div>
-        )}
+
+        <div class="flex items-center gap-4">
+          <time class="text-xs text-neutral-500 tabular-nums">{displayDate}</time>
+          {entry.data.tags.length > 0 && (
+            <div class="flex gap-3 flex-wrap">
+              {entry.data.tags.map(tag => (
+                <span class="text-xs text-neutral-500">#{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
       </header>
+
+      {entry.data.image && (
+        <img
+          src={entry.data.image}
+          alt={entry.data.title}
+          class="w-full rounded mb-10 opacity-90"
+        />
+      )}
 
       <div class="prose prose-invert prose-sm prose-neutral max-w-none
         prose-headings:font-mono prose-headings:font-semibold

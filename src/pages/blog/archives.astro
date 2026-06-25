@@ -1,0 +1,45 @@
+---
+import BlogLayout from '../../components/BlogLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf());
+
+const postsByYear = new Map<number, typeof posts>();
+for (const post of posts) {
+  const year = post.data.createdAt.getFullYear();
+  if (!postsByYear.has(year)) postsByYear.set(year, []);
+  postsByYear.get(year)!.push(post);
+}
+const years = [...postsByYear.keys()].sort((a, b) => b - a);
+---
+
+<BlogLayout title="Archives — smyrkh" tab="archives">
+  {posts.length === 0 ? (
+    <p class="text-sm text-neutral-500">No posts yet.</p>
+  ) : (
+    <div class="space-y-10">
+      {years.map(year => (
+        <section>
+          <p class="text-xs text-neutral-500 uppercase tracking-widest mb-4">{year}</p>
+          <ul class="space-y-3 border-l border-neutral-800 pl-4">
+            {postsByYear.get(year)!.map(post => {
+              const mmdd = post.data.createdAt.toISOString().slice(5, 10);
+              return (
+                <li class="flex gap-4 items-baseline">
+                  <span class="text-xs text-neutral-600 tabular-nums flex-shrink-0">{mmdd}</span>
+                  <a
+                    href={`/blog/${post.id}`}
+                    class="text-sm text-neutral-300 hover:text-white transition-colors"
+                  >
+                    {post.data.title}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))}
+    </div>
+  )}
+</BlogLayout>

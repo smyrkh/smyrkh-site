@@ -1,0 +1,130 @@
+---
+import BlogLayout from '../../components/BlogLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => {
+  const da = (a.data.updatedAt ?? a.data.createdAt).valueOf();
+  const db = (b.data.updatedAt ?? b.data.createdAt).valueOf();
+  return db - da;
+});
+
+const allCategories = [...new Set(posts.map(p => p.data.category))].sort();
+const allTags = [...new Set(posts.flatMap(p => p.data.tags))].sort();
+---
+
+<BlogLayout title="Blog — smyrkh" tab="all">
+  {posts.length === 0 ? (
+    <div class="flex flex-col gap-2">
+      <p class="text-sm text-neutral-400">coming soon.</p>
+      <p class="text-xs text-neutral-600">still writing things.</p>
+    </div>
+  ) : (
+    <>
+      {allCategories.length > 0 && (
+        <div class="flex gap-2 flex-wrap mb-4">
+          <button
+            data-tab="ALL"
+            class="text-xs px-3 py-1.5 border rounded transition-colors duration-150 border-neutral-400 text-neutral-100"
+          >
+            All
+          </button>
+          {allCategories.map(cat => (
+            <button
+              data-tab={cat}
+              class="text-xs px-3 py-1.5 border rounded transition-colors duration-150 border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-200"
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {allTags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mb-10">
+          {allTags.map(tag => (
+            <button
+              data-tag-filter={tag}
+              class="text-xs px-2 py-1 border border-neutral-800 rounded text-neutral-500 hover:border-neutral-600 hover:text-neutral-300 transition-colors duration-150"
+            >
+              #{tag}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <ul class="divide-y divide-neutral-900">
+        {posts.map(post => (
+          <li data-category={post.data.category} data-tags={JSON.stringify(post.data.tags)}>
+            <BlogCard post={post} />
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
+</BlogLayout>
+
+<script>
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-tab]'));
+  const items = document.querySelectorAll<HTMLElement>('[data-category]');
+  const tagBtns = document.querySelectorAll<HTMLButtonElement>('[data-tag-filter]');
+
+  let activeCategory = 'ALL';
+  let activeTags = new Set<string>();
+
+  function applyFilter() {
+    items.forEach(el => {
+      const elCat = el.dataset.category ?? '';
+      const tags: string[] = JSON.parse(el.dataset.tags || '[]');
+      const catMatch =
+        activeCategory === 'ALL' ||
+        elCat === activeCategory ||
+        elCat.startsWith(activeCategory + '/');
+      const tagMatch = activeTags.size === 0 || [...activeTags].every(t => tags.includes(t));
+      el.hidden = !(catMatch && tagMatch);
+    });
+  }
+
+  function setCategory(category: string) {
+    activeCategory = category;
+    applyFilter();
+    tabs.forEach(btn => {
+      const isActive = btn.dataset.tab === category;
+      btn.classList.toggle('border-neutral-400', isActive);
+      btn.classList.toggle('text-neutral-100', isActive);
+      btn.classList.toggle('border-neutral-700', !isActive);
+      btn.classList.toggle('text-neutral-400', !isActive);
+    });
+  }
+
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => setCategory(btn.dataset.tab!));
+  });
+
+  tagBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tag = btn.dataset.tagFilter!;
+      if (activeTags.has(tag)) {
+        activeTags.delete(tag);
+        btn.classList.remove('border-neutral-400', 'text-neutral-100');
+        btn.classList.add('border-neutral-800', 'text-neutral-500');
+      } else {
+        activeTags.add(tag);
+        btn.classList.remove('border-neutral-800', 'text-neutral-500');
+        btn.classList.add('border-neutral-400', 'text-neutral-100');
+      }
+      applyFilter();
+    });
+  });
+
+  // initialize from URL params
+  const params = new URLSearchParams(window.location.search);
+  const initCategory = params.get('category');
+  if (initCategory) setCategory(initCategory);
+  const initTag = params.get('tag');
+  if (initTag) {
+    const btn = document.querySelector<HTMLButtonElement>(`[data-tag-filter="${initTag}"]`);
+    btn?.click();
+  }
+</script>

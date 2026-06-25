@@ -1,0 +1,42 @@
+---
+import AboutLayout from '../../components/AboutLayout.astro';
+---
+
+<AboutLayout title="This Site — smyrkh" tab="this-site">
+  <section class="mb-12">
+    <p class="text-sm text-neutral-200 leading-relaxed mb-6">
+      smyrkh's personal website. A space for sharing background, thoughts, and projects I've built.
+    </p>
+
+    <div class="space-y-6">
+      <div>
+        <p class="text-xs text-neutral-500 uppercase tracking-widest mb-3">Stack</p>
+        <ul class="space-y-2 text-sm text-neutral-300">
+          <li><span class="text-neutral-500">Framework</span> — Astro</li>
+          <li><span class="text-neutral-500">Styling</span> — Tailwind CSS</li>
+          <li><span class="text-neutral-500">Content</span> — Markdown + Astro Content Collections</li>
+          <li><span class="text-neutral-500">Deploy</span> — AWS Amplify</li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-xs text-neutral-500 uppercase tracking-widest mb-3">Design</p>
+        <p class="text-sm text-neutral-300 leading-relaxed">
+          Minimal and clean. Dark-first, responsive. No unnecessary decoration.
+        </p>
+      </div>
+
+      <div>
+        <p class="text-xs text-neutral-500 uppercase tracking-widest mb-3">Source</p>
+        <a
+          href="https://github.com/smyrkh/smyrkh-site"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm text-neutral-300 hover:text-white transition-colors"
+        >
+          github.com/smyrkh/smyrkh-site →
+        </a>
+      </div>
+    </div>
+  </section>
+</AboutLayout>

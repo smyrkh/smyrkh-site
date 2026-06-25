@@ -1,0 +1,62 @@
+---
+import BlogLayout from '../../components/BlogLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const categorySet = new Set(allPosts.map(p => p.data.category));
+
+type TreeNode = { [key: string]: TreeNode };
+
+function buildTree(cats: string[]): TreeNode {
+  const tree: TreeNode = {};
+  for (const cat of cats) {
+    const parts = cat.split('/');
+    let node = tree;
+    for (const part of parts) {
+      if (!node[part]) node[part] = {};
+      node = node[part];
+    }
+  }
+  return tree;
+}
+
+function flattenTree(
+  tree: TreeNode,
+  prefix = '',
+  depth = 0,
+): { segment: string; path: string; depth: number; count: number }[] {
+  return Object.keys(tree)
+    .sort()
+    .flatMap(key => {
+      const path = prefix ? `${prefix}/${key}` : key;
+      const count = allPosts.filter(
+        p => p.data.category === path || p.data.category.startsWith(path + '/'),
+      ).length;
+      return [{ segment: key, path, depth, count }, ...flattenTree(tree[key], path, depth + 1)];
+    });
+}
+
+const tree = buildTree([...categorySet]);
+const items = flattenTree(tree);
+---
+
+<BlogLayout title="Categories — smyrkh" tab="categories">
+  {items.length === 0 ? (
+    <p class="text-sm text-neutral-500">No categories yet.</p>
+  ) : (
+    <ul class="space-y-2">
+      {items.map(({ segment, path, depth, count }) => (
+        <li style={`padding-left: ${depth * 1.25}rem`}>
+          <a
+            href={`/blog/all?category=${encodeURIComponent(path)}`}
+            class="text-sm text-neutral-300 hover:text-white transition-colors"
+          >
+            {depth > 0 && <span class="text-neutral-700 mr-1">└</span>}
+            {segment}
+            <span class="text-xs text-neutral-600 ml-2">{count}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+</BlogLayout>
