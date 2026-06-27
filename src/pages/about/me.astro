@@ -5,6 +5,31 @@ import SocialLink from "../../components/SocialLink.astro";
 import { Image } from "astro:assets";
 import avatar from "../../assets/images/smyrkh.png";
 
+const interests = [
+  {
+    label: "A",
+    items: [
+      "CTF",
+      "AI",
+      "料理",
+      "お酒",
+      "コーヒー",
+      "麻雀",
+      "ピアノ",
+      "ミステリー小説",
+      "ジェイソン・ステイサム",
+    ],
+  },
+  {
+    label: "B",
+    items: ["動的型付け", "運動"],
+  },
+  {
+    label: "C",
+    items: ["甘いもの", "クモ"],
+  },
+];
+
 const skillCategories = [
   {
     label: "チョットデキル",
@@ -217,6 +242,26 @@ const skillCategories = [
           ></path>
         </svg>
       </SocialLink>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <p class="text-xs text-neutral-500 mb-8">関心・意欲・態度</p>
+    <div class="space-y-4 pl-3 border-l border-neutral-800">
+      {
+        interests.map(({ label, items }) => (
+          <div class="flex gap-3 items-start">
+            <span class="text-xs text-neutral-600 w-6 flex-shrink-0 pt-0.5">
+              {label}
+            </span>
+            <div class="flex flex-wrap gap-2">
+              {items.map((item) => (
+                <SkillBadge name={item} />
+              ))}
+            </div>
+          </div>
+        ))
+      }
     </div>
   </section>
 
