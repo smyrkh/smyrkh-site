@@ -1,0 +1,13 @@
+version: 1
+frontend:
+  phases:
+    build:
+      commands:
+        - npm run build
+    postBuild:
+      commands:
+        - aws amplify update-app --app-id $AWS_APP_ID --custom-rules file://amplify/redirects.json --custom-headers file://amplify/customHttp.yml
+  artifacts:
+    baseDirectory: dist
+    files:
+      - "**/*"

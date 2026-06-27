@@ -1,0 +1,22 @@
+[
+  {
+    "source": "/about",
+    "status": "301",
+    "target": "/about/me"
+  },
+  {
+    "source": "/blog",
+    "status": "301",
+    "target": "/blog/all"
+  },
+  {
+    "source": "/projects",
+    "status": "301",
+    "target": "/projects/all"
+  },
+  {
+    "source": "/<*>",
+    "status": "404-200",
+    "target": "/index.html"
+  }
+]
