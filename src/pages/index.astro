@@ -1,13 +1,15 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import NavCard from '../components/NavCard.astro';
-import Footer from '../components/Footer.astro';
-import { Image } from 'astro:assets';
-import avatar from '../assets/images/smyrkh.png';
+import Layout from "../layouts/Layout.astro";
+import NavCard from "../components/NavCard.astro";
+import Footer from "../components/Footer.astro";
+import { Image } from "astro:assets";
+import avatar from "../assets/images/smyrkh.png";
 ---
 
 <Layout title="smyrkh">
-  <main class="min-h-screen flex flex-col justify-between max-w-2xl mx-auto px-6 pt-32 sm:pt-40 pb-16 sm:pb-24">
+  <main
+    class="min-h-screen flex flex-col justify-between max-w-2xl mx-auto px-6 pt-32 sm:pt-40 pb-16 sm:pb-24"
+  >
     <div>
       <section class="mb-12">
         <div class="flex items-center gap-5 mb-6">
@@ -18,20 +20,41 @@ import avatar from '../assets/images/smyrkh.png';
             height={72}
             class="rounded-full border border-neutral-800 flex-shrink-0"
           />
-          <h1 class="text-5xl sm:text-6xl font-bold text-neutral-100 tracking-tight">
+          <h1
+            class="text-5xl sm:text-6xl font-bold text-neutral-100 tracking-tight"
+          >
             smyrkh
           </h1>
         </div>
         <p class="text-neutral-300 leading-relaxed max-w-sm">
-          Just a humble fan of computer science and the science of booze.
+          Just a humble fan of computer science<br />
+          and the science of booze.
         </p>
       </section>
 
       <nav aria-label="Site navigation">
         <ul class="grid gap-3 sm:grid-cols-3">
-          <li><NavCard href="/about" title="About" description="About me and this site." /></li>
-          <li><NavCard href="/blog" title="Blog" description="Articles and thoughts." /></li>
-          <li><NavCard href="/projects" title="Projects" description="Apps and projects I've built." /></li>
+          <li>
+            <NavCard
+              href="/about"
+              title="About"
+              description="About me and this site."
+            />
+          </li>
+          <li>
+            <NavCard
+              href="/blog"
+              title="Blog"
+              description="Articles and thoughts."
+            />
+          </li>
+          <li>
+            <NavCard
+              href="/projects"
+              title="Projects"
+              description="Apps and projects I've built."
+            />
+          </li>
         </ul>
       </nav>
     </div>

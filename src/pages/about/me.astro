@@ -1,18 +1,167 @@
 ---
-import AboutLayout from '../../components/AboutLayout.astro';
-import SkillBadge from '../../components/SkillBadge.astro';
-import SocialLink from '../../components/SocialLink.astro';
-import { Image } from 'astro:assets';
-import avatar from '../../assets/images/smyrkh.png';
+import AboutLayout from "../../components/AboutLayout.astro";
+import SkillBadge from "../../components/SkillBadge.astro";
+import SocialLink from "../../components/SocialLink.astro";
+import { Image } from "astro:assets";
+import avatar from "../../assets/images/smyrkh.png";
 
 const skillCategories = [
-  { label: 'Languages',      skills: ['C', 'Java', 'Go', 'Python', 'Rust', 'Lua', 'Nix', 'HTML', 'CSS', 'SCSS', 'JavaScript', 'TypeScript', 'SQL', 'Bash', 'Zsh'] },
-  { label: 'Frameworks',     skills: ['Astro'] },
-  { label: 'OS',             skills: ['Linux', 'CentOS', 'RHEL', 'Arch Linux', 'NixOS', 'Ubuntu', 'Debian', 'macOS', 'Windows'] },
-  { label: 'VCS',            skills: ['Git', 'Mercurial', 'SVN', 'GitHub', 'GitLab'] },
-  { label: 'Infrastructure', skills: ['Docker', 'VMware', 'VirtualBox', 'UTM', 'Lima', 'Jenkins', 'AWS'] },
-  { label: 'Editor / IDE',   skills: ['Neovim', 'Vim', 'VSCode', 'IntelliJ', 'Eclipse'] },
-  { label: 'Services',       skills: ['Auth0', 'Gemini', 'Claude'] },
+  {
+    label: "チョットデキル",
+    groups: [
+      {
+        label: "Languages",
+        skills: ["C", "Java", "Go", "Python", "Bash", "Zsh", "SQL"],
+      },
+      {
+        label: "Editor / IDE",
+        skills: [
+          "Neovim",
+          "Vim",
+          "Vi",
+          "VSCode",
+          "IntelliJ IDEA",
+          "Eclipse",
+          "WezTerm",
+        ],
+      },
+      {
+        label: "OS",
+        skills: ["Debian", "CentOS", "Arch Linux", "macOS", "Windows"],
+      },
+      {
+        label: "Virtualization",
+        skills: [
+          "Docker",
+          "Docker Compose",
+          "VMware",
+          "VirtualBox",
+          "UTM",
+          "QEMU",
+          "KVM",
+          "WSL",
+          "Hyper-V",
+        ],
+      },
+      { label: "DB", skills: ["RDB", "NoSQL"] },
+      { label: "Tools", skills: ["Git", "Mercurial", "Makefile", "GDB"] },
+      {
+        label: "Services",
+        skills: ["GitHub", "GitLab", "GitBucket", "Jenkins"],
+      },
+      { label: "PM", skills: ["Redmine", "JIRA", "Backlog"] },
+      {
+        label: "Protocols",
+        skills: [
+          "IP",
+          "ICMP",
+          "TCP",
+          "UDP",
+          "SSH",
+          "Telnet",
+          "SSL/TLS",
+          "HTTP",
+          "DNS",
+          "DHCP",
+        ],
+      },
+      {
+        label: "Domain",
+        skills: [
+          "System Engineering",
+          "Backend Engineering",
+          "Infrastructure & Ops",
+        ],
+      },
+    ],
+  },
+  {
+    label: "なにもわからない",
+    groups: [
+      {
+        label: "Languages",
+        skills: [
+          "C++",
+          "Rust",
+          "Lua",
+          "HTML",
+          "CSS",
+          "SCSS",
+          "Javascript",
+          "Typescript",
+        ],
+      },
+      { label: "Editor / IDE", skills: ["Visual Studio"] },
+      { label: "OS", skills: ["NixOS"] },
+      { label: "Virtualization", skills: ["Lima"] },
+      { label: "DB", skills: ["kdb+"] },
+      {
+        label: "Tools",
+        skills: [
+          "SVN",
+          "Nix",
+          "Valgrind",
+          "QAC",
+          "Claude",
+          "Claude Code",
+          "Gemini",
+          "Antigravity CLI",
+        ],
+      },
+      { label: "Cloud", skills: ["AWS", "Auth0"] },
+      {
+        label: "Protocols",
+        skills: [
+          "Ethernet",
+          "Wi-Fi",
+          "Bluetooth",
+          "FTP",
+          "SMTP",
+          "POP",
+          "IMAP",
+          "NTP",
+          "LSP",
+          "MCP",
+        ],
+      },
+      {
+        label: "Domain",
+        skills: [
+          "Frontend Engineering",
+          "Tech Leadership",
+          "Engineering Management",
+        ],
+      },
+    ],
+  },
+  {
+    label: "完全に理解した",
+    groups: [
+      {
+        label: "Languages",
+        skills: ["C#", "PHP", "COBOL", "AWK", "Perl", "VBA"],
+      },
+      { label: "Editor / IDE", skills: ["Emacs"] },
+      {
+        label: "OS",
+        skills: ["Slackware", "openSUSE", "Gentoo Linux", "FreeBSD"],
+      },
+      { label: "Virtualization", skills: ["Podman", "Apple Container"] },
+      { label: "DB", skills: ["Elasticsearch"] },
+      {
+        label: "Tools",
+        skills: ["Vagrant", "Docker Swarm", "Kubernetes", "Monit"],
+      },
+      { label: "Services", skills: ["Cloudflare"] },
+      { label: "Diagram", skills: ["PlantUML", "Mermaid"] },
+      { label: "Protocols", skills: ["QUIC", "Web3"] },
+      { label: "Domain", skills: ["Project Management"] },
+    ],
+  },
+  {
+    label: "なにそれ美味しそう",
+    groups: [{ label: "", skills: ["そのほか"] }],
+  },
 ];
 ---
 
@@ -28,23 +177,15 @@ const skillCategories = [
     <div>
       <h1 class="text-xl font-bold text-neutral-100 mb-1">smyrkh</h1>
       <p class="text-xs text-neutral-400 mb-5">Software Engineer</p>
-      <p class="text-sm text-neutral-200 leading-relaxed">
-        Software engineer. Interested in systems programming, developer tooling, and Nix.
+      <p class="text-sm text-neutral-200 leading-relaxed mb-4">
+        頑張らないために頑張る<br />
+        ちゃんとしなくていいようにちゃんとする<br />
       </p>
-    </div>
-  </section>
-
-  <section class="mb-16">
-    <p class="text-xs text-neutral-500 uppercase tracking-widest mb-8">Skills</p>
-    <div class="space-y-7">
-      {skillCategories.map(({ label, skills }) => (
-        <div>
-          <p class="text-xs text-neutral-500 mb-3">{label}</p>
-          <div class="flex flex-wrap gap-2">
-            {skills.map(skill => <SkillBadge name={skill} />)}
-          </div>
-        </div>
-      ))}
+      <p class="text-sm text-neutral-200 leading-relaxed">
+        私は常にある程度間違っている<br />
+        あるべき姿を目指す前に、当たり前にすべきことをする<br />
+        不満は秘密箱<br />
+      </p>
     </div>
   </section>
 
@@ -52,15 +193,60 @@ const skillCategories = [
     <p class="text-xs text-neutral-500 uppercase tracking-widest mb-6">Links</p>
     <div class="flex gap-3 flex-wrap">
       <SocialLink href="https://github.com/smyrkh" label="GitHub">
-        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+        <svg
+          class="w-5 h-5 fill-current"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+          ></path>
         </svg>
       </SocialLink>
       <SocialLink href="https://x.com/smyrkh" label="X">
-        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 7.184ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+        <svg
+          class="w-5 h-5 fill-current"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 7.184ZM17.61 20.644h2.039L6.486 3.24H4.298Z"
+          ></path>
         </svg>
       </SocialLink>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <p class="text-xs text-neutral-500 uppercase tracking-widest mb-8">
+      Skills
+    </p>
+    <div class="space-y-10">
+      {
+        skillCategories.map(({ label, groups }) => (
+          <div>
+            <p class="text-sm text-neutral-400 mb-4">{label}</p>
+            <div class="space-y-4 pl-3 border-l border-neutral-800">
+              {groups.map(({ label: groupLabel, skills }) => (
+                <div class="flex gap-3 items-start">
+                  {groupLabel && (
+                    <span class="text-xs text-neutral-600 w-24 flex-shrink-0 pt-0.5">
+                      {groupLabel}
+                    </span>
+                  )}
+                  <div class="flex flex-wrap gap-2">
+                    {skills.map((skill) => (
+                      <SkillBadge name={skill} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
     </div>
   </section>
 </AboutLayout>
